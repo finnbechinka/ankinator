@@ -1,1 +1,1 @@
-this app so good
+this app so good too
