@@ -1,8 +1,8 @@
-
+const Card = require("./Card");
 module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define("User", {
-        username: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         }
     }, { freezeTableName: true });
-    /*
+
     User.associate = (models) => {
-        
+        User.hasMany(models.Card);
     };
-    */
+
     return User;
 };
