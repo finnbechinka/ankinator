@@ -27,10 +27,12 @@ router.get('/:uid/next', async (req, res) => {
     res.json(card);
 });
 
-router.patch('/updateInterval/:pid', async (req, res) => {
-    const pid = req.params.pid;
+router.patch('/updateInterval/:cid', async (req, res) => {
+    const cid = req.params.cid;
     const {difficulty} = req.body;
     var date = new Date();
+
+    let card = await Card.update({last_viewed: date}, {where: {id: cid}});
     
     if(difficulty == "easy"){
         date.setDate(date.getDate() + 14);
@@ -44,7 +46,15 @@ router.patch('/updateInterval/:pid', async (req, res) => {
 
     console.log(date);
 
-    const card = await Card.update({next_interval: date}, {where: {id: pid}});
+    card = await Card.update({next_interval: date}, {where: {id: cid}});
+    res.json("SUCCESS");
+});
+
+router.patch('/update/:cid', async (req, res) => {
+    const cid = req.params.cid;
+    const {front, back} = req.body;
+
+    const card = await Card.update({front: front, back: back}, {where: {id: cid}});
     res.json("SUCCESS");
 });
 
