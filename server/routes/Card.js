@@ -21,6 +21,12 @@ router.get('/:uid', async (req, res) => {
     res.json(listOfCards);
 });
 
+router.get('/:cid', async (req, res) => {
+    const cid = req.params.cid;
+    const card = await Card.findAll({ where: { id: cid } });
+    res.json(card);
+});
+
 router.get('/:uid/next', async (req, res) => {
     const uid = req.params.uid;
     const card = await Card.findOne({ where: { UserId: uid }, order: [['next_interval', 'ASC']] });
