@@ -6,26 +6,26 @@ const {validateToken} = require('../middlewares/AuthMiddleware')
 const {sign} = require('jsonwebtoken');
 
 router.post('/', async (req, res) => {
-    const {username, password, type} = req.body;
-    const user = await User.findOne({ where: {username: username}});
+    const {email, password, type} = req.body;
+    const user = await User.findOne({ where: {email: email}});
     if(!user){
         bcrypt.hash(password, 10).then((hash) => {
             User.create({
-                username: username,
+                email: email,
                 password: hash,
                 type: type
             });
             res.json("SUCCESS");
         });
     }else{
-        res.json({error: "username is taken"});
+        res.json({error: "email is already in use"});
     }
 });
 
 router.post('/login', async (req, res) =>{
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
-    const user = await User.findOne({ where: {username: username}});
+    const user = await User.findOne({ where: {email: email}});
     if(!user){
         res.json({error: "no such user"});
     }else{
@@ -33,8 +33,8 @@ router.post('/login', async (req, res) =>{
             if(!match){
                 res.json({error: "wrong password"});
             }else{
-                const accessToken = sign({username: user.username, id: user.id}, "secret");
-                res.json({token: accessToken, username: user.username, id: user.id});
+                const accessToken = sign({email: user.email, id: user.id}, "secret");
+                res.json({token: accessToken, email: user.email, id: user.id});
             }
         });
     }
@@ -46,12 +46,14 @@ router.get('/auth', validateToken, (req, res) =>{
     res.json(req.user);
 });
 
+/*
 router.post('/getusername', async (req, res) =>{
     const {uid} = req.body;
     const user = await User.findByPk(uid);
     if(user){
-        res.json({username: user.username})
+        res.json({email: user.email})
     }
 })
+*/
 
 module.exports = router;

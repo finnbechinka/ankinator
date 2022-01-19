@@ -9,6 +9,8 @@ const db = require('./models');
 
 const userRouter = require('./routes/User');
 app.use('/auth', userRouter);
+const cardRouter = require('./routes/Card');
+app.use('/card', cardRouter);
 
 
 

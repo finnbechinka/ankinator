@@ -1,4 +1,5 @@
 const User = require("./User");
+const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -12,12 +13,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         last_viewed: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: true
         },
         next_interval: {
-            type: DataTypes.DATE,
-            allowNull: true
+            type: DataTypes.DATEONLY,
+            allowNull: false,
+            defaultValue: Sequelize.NOW
         }
     }, { freezeTableName: true });
     
