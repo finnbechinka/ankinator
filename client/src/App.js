@@ -7,6 +7,7 @@ import axios from "axios";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Anmelden from "./pages/Anmelden";
+import Dashboard from "./pages/Dashboard";
 
 export const AuthContext = createContext();
 
@@ -42,6 +43,13 @@ function App() {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className="navbar">
+            <div className="navBarLeft">
+              {authState.status && (
+                <>
+                  <Link to="#" style={linkStyle}> Neue Karte</Link>
+                </>
+              )}
+            </div>
             <div className="loginout">
               {!authState.status && (
                 <>
@@ -56,9 +64,10 @@ function App() {
             </div>
           </div>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/anmelden" element={<Anmelden />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
       </AuthContext.Provider>

@@ -20,10 +20,14 @@ body {
   align-items: center;
 }
 
+.navbar .navBarLeft{
+  margin-left: 15px;
+}
+
 .navbar .loginout{
   flex: 50%;
   height: 100%;
-  margin-right: 25px;
+  margin-right: 15px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
