@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -33,10 +33,10 @@ function Register() {
   };
 
   useEffect(() => {
-    if (authState.status == true) {
-      navigate("/");
+    if (authState.status) {
+      navigate("/anmelden");
     }
-  }, []);
+  }, [authState.status, navigate]);
 
   return (
     <div className="registerContainer">
@@ -56,7 +56,7 @@ function Register() {
           </div>
           <ErrorMessage name="email" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             className="field"
             name="email"
             placeholder="(MaxMustermann@mail.de)"
@@ -66,7 +66,7 @@ function Register() {
           </div>
           <ErrorMessage name="password" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             type="password"
             className="field"
             name="password"

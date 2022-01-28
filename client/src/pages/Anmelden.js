@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -26,16 +26,16 @@ function Anmelden() {
       } else {
         localStorage.setItem("accessToken", response.data.token);
         setAuthState({ username: response.data.username, id: response.data.id, status: true });
-        navigate("/");
+        navigate("/dashboard");
       }
     });
   };
 
   useEffect(() => {
-    if (authState.status == true) {
-      navigate("/");
+    if (authState.status) {
+      navigate("/dashboard");
     }
-  }, []);
+  }, [authState.status, navigate]);
 
   return (
     <div className="loginContainer">
@@ -55,7 +55,7 @@ function Anmelden() {
           </div>
           <ErrorMessage name="email" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             className="field"
             name="email"
             placeholder="(MaxMustermann@mail.de)"
@@ -65,7 +65,7 @@ function Anmelden() {
           </div>
           <ErrorMessage name="password" component="span" />
           <Field
-            autocomplete="off"
+            autoComplete="off"
             className="field"
             type="password"
             name="password"

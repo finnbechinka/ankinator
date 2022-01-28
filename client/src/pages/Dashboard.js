@@ -14,11 +14,14 @@ function Dashboard() {
     const { authState } = useContext(AuthContext);
     const [card, setCard] = useState({});
     const [viewBack, setViewBack] = useState(false);
-    useEffect(async () => {
-        await axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
-            setCard(res.data);
-        });
-    }, []);
+    useEffect(() => {
+        async function fetchData(){
+            await axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
+                setCard(res.data);
+            });
+        }
+        fetchData();
+    }, [authState]);
 
     const toBack = () => {
         console.log("to back");
@@ -28,20 +31,29 @@ function Dashboard() {
     return (
         <div className="dashboardContainter">
             <div className='card'>
-                {!viewBack && (
+                {!card && (
                     <>
-                        {card.front}
+                    keine karte
                     </>
                 )}
-                {viewBack && (
+                {card && (
                     <>
-                        {card.back}
+                    {!viewBack && (
+                        <>
+                            {card.front}
+                        </>
+                    )}
+                    {viewBack && (
+                        <>
+                            {card.back}
+                        </>
+                    )}
+                    <br></br>
+                    <br></br>
+                    <label>Zuletzt gesehen: {card.last_viewed}</label>
                     </>
                 )}
             </div>
-
-            <label>Zuletzt gesehen: {card.last_viewed}</label>
-
             <br></br>
             {!viewBack && (
                 <>

@@ -1,10 +1,8 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { useState, useEffect, createContext } from 'react';
 import axios from "axios";
 
-import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Anmelden from "./pages/Anmelden";
 import Dashboard from "./pages/Dashboard";
@@ -13,7 +11,6 @@ export const AuthContext = createContext();
 
 function App() {
   const [authState, setAuthState] = useState({ email: "", id: 0, status: false });
-  let redirected = false;
 
   useEffect(() => {
     axios.get("http://localhost:3001/auth/auth", { headers: { accessToken: localStorage.getItem("accessToken"), }, }).then((response) => {
@@ -22,20 +19,22 @@ function App() {
       } else {
         setAuthState({ username: response.data.username, id: response.data.id, status: true });
       }
-    })
+    });
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState({ username: "", id: 0, status: false });
-    window.location.href = '/register';
+    window.location.href = '/';
   }
 
   const linkStyle = {
     textDecoration: "none",
     color: 'white',
     fontFamily: "Arial, Helvetica, sans-serif",
-    fontWeight: "500"
+    fontWeight: "500",
+    fontSize: "18px",
+    marginLeft: "15px"
   };
 
   return (
@@ -53,7 +52,8 @@ function App() {
             <div className="loginout">
               {!authState.status && (
                 <>
-                  <Link to="/anmelden" style={linkStyle}> Anmelden</Link>
+                  <Link to="/" style={linkStyle}> Registrieren</Link>
+                  <Link to="/login" style={linkStyle}> Anmelden</Link>
                 </>
               )}
               {authState.status && (
@@ -64,9 +64,8 @@ function App() {
             </div>
           </div>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/anmelden" element={<Anmelden />} />
+            <Route path="/" element={<Register />} />
+            <Route path="/login" element={<Anmelden />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
