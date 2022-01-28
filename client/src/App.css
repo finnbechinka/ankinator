@@ -81,6 +81,8 @@ body {
   background-color: lightskyblue;
 }
 
+/* REGISTER */
+
 .registerContainer {
   font-family: Arial, Helvetica, sans-serif;
   width: 100vw;
@@ -106,6 +108,8 @@ body {
   border: 2px solid rgb(29, 29, 29);
   border-radius: 25px;
 }
+
+/* LOGIN */
 
 .loginContainer {
   font-family: Arial, Helvetica, sans-serif;
