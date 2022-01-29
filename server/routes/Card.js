@@ -4,6 +4,7 @@ const { Card } = require('../models');
 const Sequelize = require('sequelize');
 
 router.get('/', async (req, res) => {
+    //TODO: REMOVE; ONLY FOR TESTING
     const listOfCards = await Card.findAll();
     res.json(listOfCards);
 });
@@ -11,26 +12,41 @@ router.get('/', async (req, res) => {
 router.post('/new', async (req, res) => {
     let cardIn = req.body;
     const cardActual = await Card.create(cardIn);
-    //TODO: ERROR HANDLING
-    res.json(cardActual);
+    if(cardActual){
+        res.json(cardActual);
+    }else{
+        res.json({error: "Fehler beim erstellen der Karte!"});
+    }
 });
 
-router.get('/:uid', async (req, res) => {
+router.get('/all/:uid', async (req, res) => {
     const uid = req.params.uid;
     const listOfCards = await Card.findAll({ where: { UserId: uid } });
-    res.json(listOfCards);
+    if(listOfCards){
+        res.json(listOfCards);
+    }else {
+        res.json({error: "Fehler beim zurückgeben aller Karten für einen Benutzer!"});
+    }
 });
 
 router.get('/:cid', async (req, res) => {
     const cid = req.params.cid;
     const card = await Card.findAll({ where: { id: cid } });
-    res.json(card);
+    if(card){
+        res.json(card);
+    }else {
+        res.json({error: "Fehler beim zurückgeben der Karte!"});
+    }
 });
 
 router.get('/:uid/next', async (req, res) => {
     const uid = req.params.uid;
     const card = await Card.findOne({ where: { UserId: uid }, order: [['next_interval', 'ASC']] });
-    res.json(card);
+    if(card){
+        res.json(card);
+    }else {
+        res.json({error: "Fehler beim zurückgeben der nächsten Karte!"});
+    }
 });
 
 router.patch('/updateInterval/:cid', async (req, res) => {
@@ -50,10 +66,8 @@ router.patch('/updateInterval/:cid', async (req, res) => {
         date.setDate(date.getDate() + 3);
     }
 
-    console.log(date);
-
     card = await Card.update({next_interval: date}, {where: {id: cid}});
-    res.json("SUCCESS");
+    res.json("Intervall aktualisiert");
 });
 
 router.patch('/update/:cid', async (req, res) => {
@@ -61,7 +75,7 @@ router.patch('/update/:cid', async (req, res) => {
     const {front, back} = req.body;
 
     const card = await Card.update({front: front, back: back}, {where: {id: cid}});
-    res.json("SUCCESS");
+    res.json("Karte aktualisiert");
 });
 
 module.exports = router;
