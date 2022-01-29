@@ -15,7 +15,10 @@ function App() {
   useEffect(() => {
     axios.get("http://localhost:3001/auth/auth", { headers: { accessToken: localStorage.getItem("accessToken"), }, }).then((response) => {
       if (response.data.error) {
-        setAuthState({ ...authState, status: false });
+        if(authState.status == true){
+          alert("response.data.error");
+          setAuthState({ ...authState, status: false });
+        }
       } else {
         setAuthState({ username: response.data.username, id: response.data.id, status: true });
       }

@@ -1,9 +1,11 @@
+const { compare } = require("bcryptjs");
 const { verify } = require("jsonwebtoken");
 
 const validateToken = (req, res, next) =>{
     const accessToken = req.header("accessToken");
 
-    if(!accessToken) return res.json({error: "user not logged in"});
+    if(accessToken == "null") return res.json({error: "Benutzer Authentifizierung fehlgeschlagen"});
+    
 
     try {
         const validToken = verify(accessToken, "secret");
@@ -12,7 +14,7 @@ const validateToken = (req, res, next) =>{
             return next();
         }
     } catch (err) {
-        return res.json({error: err});
+        return res.json({error: "Benutzer Authentifizierung fehlgeschlagen"});
     }
 }
 

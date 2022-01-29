@@ -42,7 +42,6 @@ router.post('/login', async (req, res) =>{
 });
 
 router.get('/auth', validateToken, (req, res) =>{
-    console.log("auth called");
     res.json(req.user);
 });
 
