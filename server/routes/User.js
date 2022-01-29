@@ -15,10 +15,10 @@ router.post('/', async (req, res) => {
                 password: hash,
                 type: type
             });
-            res.json("SUCCESS");
+            res.json("Benutzer erfolgreich erstellt!");
         });
     }else{
-        res.json({error: "email is already in use"});
+        res.json({error: "Ein Benutzer mit dieser E-Mail Adresse existiert schon!"});
     }
 });
 
@@ -27,11 +27,11 @@ router.post('/login', async (req, res) =>{
 
     const user = await User.findOne({ where: {email: email}});
     if(!user){
-        res.json({error: "no such user"});
+        res.json({error: "Benutzer nicht gefunden!"});
     }else{
         bcrypt.compare(password, user.password).then((match) => {
             if(!match){
-                res.json({error: "wrong password"});
+                res.json({error: "Falsches Passwort"});
             }else{
                 const accessToken = sign({email: user.email, id: user.id}, "secret");
                 res.json({token: accessToken, email: user.email, id: user.id});
@@ -44,15 +44,5 @@ router.post('/login', async (req, res) =>{
 router.get('/auth', validateToken, (req, res) =>{
     res.json(req.user);
 });
-
-/*
-router.post('/getusername', async (req, res) =>{
-    const {uid} = req.body;
-    const user = await User.findByPk(uid);
-    if(user){
-        res.json({email: user.email})
-    }
-})
-*/
 
 module.exports = router;
