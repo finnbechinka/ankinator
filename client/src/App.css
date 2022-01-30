@@ -1,6 +1,4 @@
 .App {
-  width: 100vw;
-  height: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -37,7 +35,6 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  float: right;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -139,4 +136,57 @@ body {
 
 span {
   color: red;
+}
+
+
+
+
+/* CARD */
+
+.newCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newCardForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.newCardForm .newCardField {
+  margin: 75px;
+  background-color: #17171d;
+  width: 1600px;  
+  height: 500px;
+  border: 40px solid rgb(17, 17, 17);
+  border-radius: 10px;
+  font-size: 20px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  resize: none;
+}
+
+.newCardForm .buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  float: right;
+  margin: 75px;
+  margin-top: 0px;
+}
+
+.newCardForm button {
+  font-size: 20px;
+  height: 50px;
+  width: 200px;
+  border: none;
+  background-color: rgb(9, 82, 155);
+  border-radius: 5px;
+  color: white;
+}
+
+.newCardForm button:hover {
+  cursor: pointer;
+  background-color: lightskyblue;
 }

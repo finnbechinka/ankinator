@@ -21,14 +21,12 @@ function Register() {
   });
 
   const onSubmit = (data) => {
-    console.log("submit call");
     axios.post("http://localhost:3001/auth", data).then((res) => {
       if (res.data.error) {
         alert(res.data.error);
       } else {
         alert("Registerierung erfolgreich")
       }
-      console.log(res.data);
     });
   };
 

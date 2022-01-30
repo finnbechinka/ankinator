@@ -14,6 +14,7 @@ function Dashboard() {
     const { authState } = useContext(AuthContext);
     const [card, setCard] = useState({});
     const [viewBack, setViewBack] = useState(false);
+    
     useEffect(() => {
         async function fetchData(){
             await axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
