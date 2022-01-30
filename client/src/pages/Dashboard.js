@@ -1,20 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { AuthContext } from "../App";
-
-function useForceUpdate() {
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update the state to force render
-}
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-    const forceUpdate = useForceUpdate();
-    const { authState } = useContext(AuthContext);
+    const { authState, refreshNavbar } = useContext(AuthContext);
     const [card, setCard] = useState({});
     const [viewBack, setViewBack] = useState(false);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     let initialValues = {
         front: card.front,
@@ -22,64 +16,91 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
-            setCard(res.data);
-        });
-        if(!authState.status){
+        if(authState.status){
+            axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
+                if (res.data == "Alle Karten abgearbeitet!") {
+                    alert(res.data);
+                } else {
+                    setCard(res.data);
+                }
+            });
+        }else{
             navigate("/");
         }
+        refreshNavbar();
     }, [authState]);
 
     const toBack = () => {
-        console.log("to back");
         setViewBack(true);
     };
 
+    const next = (difficulty) => {
+        return function () {
+            axios.patch(`http://localhost:3001/card/updateInterval/${card.id}`, { difficulty: difficulty }).then((res) => {
+                navigate("/");
+            });
+        }
+    }
+
     return (
         <div className="dashboardContainter">
-            <Formik
-                enableReinitialize={true}
-                initialValues={initialValues}
-            >
-                <Form className='newCardForm'>
-                    {!viewBack && (
-                        <>
-                            <Field
-                                as="textarea"
-                                autocomplete="off"
-                                className="newCardField"
-                                name="front"
-                                readonly="true"
-                            />
-                        </>
-                    )}
-                    {viewBack && (
-                        <>
-                            <Field
-                                as="textarea"
-                                autocomplete="off"
-                                className="newCardField"
-                                name="back"
-                                readonly="true"
-                            />
-                        </>
-                    )}
-                </Form>
-            </Formik>
-            <div className='dashButtonContainer'>
-            {!viewBack && (
+            {!card.front && (
                 <>
-                    <button onClick={toBack}> Zur Rückseite</button>
+                    <div className="header">
+                        <label>Wir haben keine Karte mehr für dich.</label>
+                        <br></br>
+                        <br></br>
+                        <label>Erstell doch eine Neue!</label>
+                    </div>
                 </>
             )}
-            {viewBack && (
+            {card.front && (
                 <>
-                    <button id='easyButton'> Einfach</button>
-                    <button id='midButton'> Mittel</button>
-                    <button id='hardButton'> Schwer</button>
+                    <Formik
+                        enableReinitialize={true}
+                        initialValues={initialValues}
+                    >
+                        <Form className='newCardForm'>
+                            {!viewBack && (
+                                <>
+                                    <Field
+                                        as="textarea"
+                                        autoComplete="off"
+                                        className="newCardField"
+                                        name="front"
+                                        readOnly={true}
+                                    />
+                                </>
+                            )}
+                            {viewBack && (
+                                <>
+                                    <Field
+                                        as="textarea"
+                                        autoComplete="off"
+                                        className="newCardField"
+                                        name="back"
+                                        readOnly={true}
+                                    />
+                                </>
+                            )}
+                        </Form>
+                    </Formik>
+                    <div className='dashButtonContainer'>
+                        {!viewBack && (
+                            <>
+                                <button onClick={toBack}> Zur Rückseite</button>
+                            </>
+                        )}
+                        {viewBack && (
+                            <>
+                                <button id='easyButton' onClick={next("easy")}> Einfach</button>
+                                <button id='midButton' onClick={next("neutral")}> Mittel</button>
+                                <button id='hardButton' onClick={next("hard")}> Schwer</button>
+                            </>
+                        )}
+                    </div>
                 </>
             )}
-            </div>
         </div>
     )
 }

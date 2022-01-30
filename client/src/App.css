@@ -191,6 +191,13 @@ span {
   background-color: lightskyblue;
 }
 
+.dashboardContainter .header{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
+  margin: 200px;
+  color: white;
+  font-weight: 750;
+}
 
 .dashButtonContainer{
   display: flex;
@@ -199,6 +206,7 @@ span {
   margin: 75px;
   margin-top: 0px;
 }
+
 
 .dashButtonContainer button {
   margin-left: 25px;
@@ -209,6 +217,11 @@ span {
   background-color: #0B4067;
   border-radius: 5px;
   color: white;
+}
+
+.dashButtonContainer button:hover {
+  cursor: pointer;
+  background-color: lightskyblue;
 }
 
 .dashButtonContainer #easyButton {
@@ -223,7 +236,4 @@ span {
   background-color: #661313;
 }
 
-.buttonContainer button:hover {
-  cursor: pointer;
-  background-color: lightskyblue;
-}
+

@@ -10,13 +10,19 @@ import NewCard from "./pages/NewCard";
 
 export const AuthContext = createContext();
 
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
+
 function App() {
   const [authState, setAuthState] = useState({ email: "", id: 0, status: false });
+  const refreshNavbar = useForceUpdate();
 
   useEffect(() => {
     axios.get("http://localhost:3001/auth/auth", { headers: { accessToken: localStorage.getItem("accessToken"), }, }).then((response) => {
       if (response.data.error) {
-        if(authState.status == true){
+        if (authState.status === true) {
           alert("response.data.error");
           setAuthState({ ...authState, status: false });
         }
@@ -43,13 +49,28 @@ function App() {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authState, setAuthState }}>
+      <AuthContext.Provider value={{ authState, setAuthState, refreshNavbar }}>
         <Router>
           <div className="navbar">
             <div className="navBarLeft">
               {authState.status && (
                 <>
-                  <Link to="/card/new" style={linkStyle}> Neue Karte</Link>
+                  {window.location.pathname == "/dashboard" && (
+                    <>
+                      <Link to="/card/edit" style={linkStyle}> Karte Bearbeiten</Link>
+                      <Link to="/card/new" style={linkStyle}> Neue Karte</Link>
+                    </>
+                  )}
+                  {window.location.pathname == "/card/new" && (
+                    <>
+                      <Link to="/dashboard" style={linkStyle}> Dashboard</Link>
+                    </>
+                  )}
+                  {window.location.pathname == "/card/edit" && (
+                    <>
+                      <Link to="/dashboard" style={linkStyle}> Dashboard</Link>
+                    </>
+                  )}
                 </>
               )}
             </div>

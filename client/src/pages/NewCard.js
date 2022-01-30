@@ -1,17 +1,21 @@
 import React, { useContext, useEffect } from "react";
 import axios from "axios";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 
 function NewCard() {
-    const { authState } = useContext(AuthContext);
+    const { authState, refreshNavbar } = useContext(AuthContext);
     let navigate = useNavigate();
 
     const initialValues = {
         front: "",
         back: ""
     };
+
+    useEffect(() =>{
+        refreshNavbar();
+    },[]);
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/card/new", { front: data.front, back: data.back, UserId: authState.id}).then((res) => {
@@ -33,7 +37,7 @@ function NewCard() {
                 <Form className='newCardForm'>
                     <Field
                         as="textarea"
-                        autocomplete="off"
+                        autoComplete="off"
                         className="newCardField"
                         name="front"
                         placeholder="Lernkarte Vorderseite"
@@ -41,7 +45,7 @@ function NewCard() {
 
                     <Field
                         as="textarea"
-                        autocomplete="off"
+                        autoComplete="off"
                         className="newCardField"
                         name="back"
                         placeholder="Lernkarte Rückseite"
