@@ -14,14 +14,20 @@ function Dashboard() {
     const { authState } = useContext(AuthContext);
     const [card, setCard] = useState({});
     const [viewBack, setViewBack] = useState(false);
-    
+    let navigate = useNavigate();
+
+    let initialValues = {
+        front: card.front,
+        back: card.back
+    };
+
     useEffect(() => {
-        async function fetchData(){
-            await axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
-                setCard(res.data);
-            });
+        axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
+            setCard(res.data);
+        });
+        if(!authState.status){
+            navigate("/");
         }
-        fetchData();
     }, [authState]);
 
     const toBack = () => {
@@ -31,31 +37,36 @@ function Dashboard() {
 
     return (
         <div className="dashboardContainter">
-            <div className='card'>
-                {!card && (
-                    <>
-                    keine karte
-                    </>
-                )}
-                {card && (
-                    <>
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues}
+            >
+                <Form className='newCardForm'>
                     {!viewBack && (
                         <>
-                            {card.front}
+                            <Field
+                                as="textarea"
+                                autocomplete="off"
+                                className="newCardField"
+                                name="front"
+                                readonly="true"
+                            />
                         </>
                     )}
                     {viewBack && (
                         <>
-                            {card.back}
+                            <Field
+                                as="textarea"
+                                autocomplete="off"
+                                className="newCardField"
+                                name="back"
+                                readonly="true"
+                            />
                         </>
                     )}
-                    <br></br>
-                    <br></br>
-                    <label>Zuletzt gesehen: {card.last_viewed}</label>
-                    </>
-                )}
-            </div>
-            <br></br>
+                </Form>
+            </Formik>
+            <div className='dashButtonContainer'>
             {!viewBack && (
                 <>
                     <button onClick={toBack}> Zur Rückseite</button>
@@ -63,12 +74,12 @@ function Dashboard() {
             )}
             {viewBack && (
                 <>
-                    <button > Einfach</button>
-                    <button > Mittel</button>
-                    <button > Schwer</button>
+                    <button id='easyButton'> Einfach</button>
+                    <button id='midButton'> Mittel</button>
+                    <button id='hardButton'> Schwer</button>
                 </>
             )}
-            
+            </div>
         </div>
     )
 }

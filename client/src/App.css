@@ -7,7 +7,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #393942;
+  background-color: #2F303A;
 }
 
 
@@ -19,7 +19,7 @@ body {
 .navbar {
   width: 100%;
   height: 50px;
-  background-color: #2b2b2b;
+  background-color: #202027;
   display: flex;
   align-items: center;
 }
@@ -53,12 +53,12 @@ body {
 }
 
 .field {
-  background-color: #2b2b2b;
+  background-color: #202027;
   color: white;
   height: 50px;
   margin-top: 10px;
   margin-bottom: 40px;
-  border: 2px solid rgb(9, 82, 155);
+  border: 2px solid #0B4067;
   border-radius: 5px;
   padding-left: 10px;
   font-size: 20px;
@@ -68,7 +68,7 @@ body {
   margin-top: 15px;
   height: 40px;
   border: none;
-  background-color: rgb(9, 82, 155);
+  background-color: #0B4067;
   border-radius: 5px;
   color: white;
 }
@@ -95,7 +95,7 @@ body {
   width: 200px;
   margin-left: 220px;
   margin-right: 50px;
-  background-color: #2b2b2b;
+  background-color: #202027;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -123,7 +123,7 @@ body {
   width: 200px;
   margin-left: 335px;
   margin-right: 50px;
-  background-color: #2b2b2b;
+  background-color: #202027;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -157,14 +157,14 @@ span {
 
 .newCardForm .newCardField {
   margin: 75px;
-  background-color: #17171d;
+  background-color: #262632;
   width: 1600px;  
   height: 500px;
-  border: 40px solid rgb(17, 17, 17);
+  border: 40px solid #202027;
   border-radius: 10px;
   font-size: 20px;
-  color: white;
   font-family: Arial, Helvetica, sans-serif;
+  color: white;
   resize: none;
 }
 
@@ -181,12 +181,49 @@ span {
   height: 50px;
   width: 200px;
   border: none;
-  background-color: rgb(9, 82, 155);
+  background-color: #0B4067;
   border-radius: 5px;
   color: white;
 }
 
 .newCardForm button:hover {
+  cursor: pointer;
+  background-color: lightskyblue;
+}
+
+
+.dashButtonContainer{
+  display: flex;
+  justify-content: flex-end;
+  float: right;
+  margin: 75px;
+  margin-top: 0px;
+}
+
+.dashButtonContainer button {
+  margin-left: 25px;
+  font-size: 20px;
+  height: 50px;
+  width: 200px;
+  border: none;
+  background-color: #0B4067;
+  border-radius: 5px;
+  color: white;
+}
+
+.dashButtonContainer #easyButton {
+  background-color: #156313;
+}
+
+.dashButtonContainer #midButton {
+  background-color: #74700F;
+}
+
+.dashButtonContainer #hardButton {
+  background-color: #661313;
+}
+
+.buttonContainer button:hover {
   cursor: pointer;
   background-color: lightskyblue;
 }

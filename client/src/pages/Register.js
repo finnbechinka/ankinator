@@ -32,7 +32,7 @@ function Register() {
 
   useEffect(() => {
     if (authState.status) {
-      navigate("/anmelden");
+      navigate("/dashboard");
     }
   }, [authState.status, navigate]);
 
