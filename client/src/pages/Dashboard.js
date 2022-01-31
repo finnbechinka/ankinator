@@ -5,7 +5,7 @@ import { AuthContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-    const { authState, refreshNavbar } = useContext(AuthContext);
+    const { authState, refreshNavbar, setCid } = useContext(AuthContext);
     const [card, setCard] = useState({});
     const [viewBack, setViewBack] = useState(false);
     const navigate = useNavigate();
@@ -19,9 +19,10 @@ function Dashboard() {
         if(authState.status){
             axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
                 if (res.data == "Alle Karten abgearbeitet!") {
-                    alert(res.data);
+                    navigate("/dashboard/nocard")
                 } else {
                     setCard(res.data);
+                    setCid(res.data.id);
                 }
             });
         }else{
@@ -44,16 +45,6 @@ function Dashboard() {
 
     return (
         <div className="dashboardContainter">
-            {!card.front && (
-                <>
-                    <div className="header">
-                        <label>Wir haben keine Karte mehr für dich.</label>
-                        <br></br>
-                        <br></br>
-                        <label>Erstell doch eine Neue!</label>
-                    </div>
-                </>
-            )}
             {card.front && (
                 <>
                     <Formik

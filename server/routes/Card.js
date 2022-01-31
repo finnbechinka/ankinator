@@ -31,7 +31,8 @@ router.get('/all/:uid', async (req, res) => {
 
 router.get('/:cid', async (req, res) => {
     const cid = req.params.cid;
-    const card = await Card.findAll({ where: { id: cid } });
+    console.log(cid);
+    const card = await Card.findOne({ where: { id: cid } });
     if(card){
         res.json(card);
     }else {

@@ -7,6 +7,9 @@ import Register from "./pages/Register";
 import Anmelden from "./pages/Anmelden";
 import Dashboard from "./pages/Dashboard";
 import NewCard from "./pages/NewCard";
+import NeCard from "./pages/NoCard";
+import NoCard from "./pages/NoCard";
+import EditCard from "./pages/EditCard";
 
 export const AuthContext = createContext();
 
@@ -17,6 +20,7 @@ function useForceUpdate() {
 
 function App() {
   const [authState, setAuthState] = useState({ email: "", id: 0, status: false });
+  const [cid, setCid] = useState({cid: 0});
   const refreshNavbar = useForceUpdate();
 
   useEffect(() => {
@@ -49,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ authState, setAuthState, refreshNavbar }}>
+      <AuthContext.Provider value={{ authState, setAuthState, refreshNavbar, setCid }}>
         <Router>
           <div className="navbar">
             <div className="navBarLeft">
@@ -57,16 +61,16 @@ function App() {
                 <>
                   {window.location.pathname == "/dashboard" && (
                     <>
-                      <Link to="/card/edit" style={linkStyle}> Karte Bearbeiten</Link>
+                      <Link to={{pathname: `/card/edit/${cid}`}} params style={linkStyle}> Karte Bearbeiten</Link>
+                      <Link to="/card/new" style={linkStyle}> Neue Karte</Link>
+                    </>
+                  )}
+                  {window.location.pathname == "/dashboard/nocard" && (
+                    <>
                       <Link to="/card/new" style={linkStyle}> Neue Karte</Link>
                     </>
                   )}
                   {window.location.pathname == "/card/new" && (
-                    <>
-                      <Link to="/dashboard" style={linkStyle}> Dashboard</Link>
-                    </>
-                  )}
-                  {window.location.pathname == "/card/edit" && (
                     <>
                       <Link to="/dashboard" style={linkStyle}> Dashboard</Link>
                     </>
@@ -92,7 +96,9 @@ function App() {
             <Route path="/" element={<Register />} />
             <Route path="/login" element={<Anmelden />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/nocard" element={<NoCard />} />
             <Route path="/card/new" element={<NewCard />} />
+            <Route path="/card/edit/:cid" element={<EditCard />} />
           </Routes>
         </Router>
       </AuthContext.Provider>
