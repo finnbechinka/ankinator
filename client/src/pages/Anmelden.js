@@ -25,7 +25,7 @@ function Anmelden() {
         alert(response.data.error);
       } else {
         localStorage.setItem("accessToken", response.data.token);
-        setAuthState({ username: response.data.username, id: response.data.id, status: true });
+        setAuthState({ email: response.data.email, id: response.data.id, status: true });
         navigate("/dashboard");
       }
     });

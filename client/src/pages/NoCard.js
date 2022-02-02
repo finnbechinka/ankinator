@@ -9,9 +9,9 @@ function NoCard() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(authState.status){
-            
-        }else{
+        if (authState.status) {
+
+        } else {
             navigate("/");
         }
         refreshNavbar();
@@ -20,11 +20,11 @@ function NoCard() {
     return (
         <div className="noCardContainer">
             <div className="header">
-                        <label>Wir haben keine Karte mehr für dich.</label>
-                        <br></br>
-                        <br></br>
-                        <label>Erstell doch eine Neue!</label>
-                    </div>
+                <label>Wir haben keine Karte mehr für dich.</label>
+                <br></br>
+                <br></br>
+                <label>Erstell doch eine Neue!</label>
+            </div>
         </div>
     )
 }

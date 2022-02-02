@@ -7,7 +7,6 @@ import Register from "./pages/Register";
 import Anmelden from "./pages/Anmelden";
 import Dashboard from "./pages/Dashboard";
 import NewCard from "./pages/NewCard";
-import NeCard from "./pages/NoCard";
 import NoCard from "./pages/NoCard";
 import EditCard from "./pages/EditCard";
 
@@ -31,14 +30,14 @@ function App() {
           setAuthState({ ...authState, status: false });
         }
       } else {
-        setAuthState({ username: response.data.username, id: response.data.id, status: true });
+        setAuthState({ email: response.data.email, id: response.data.id, status: true });
       }
     });
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    setAuthState({ username: "", id: 0, status: false });
+    setAuthState({ email: "", id: 0, status: false });
     window.location.href = '/';
   }
 
@@ -61,7 +60,7 @@ function App() {
                 <>
                   {window.location.pathname == "/dashboard" && (
                     <>
-                      <Link to={{pathname: `/card/edit/${cid}`}} params style={linkStyle}> Karte Bearbeiten</Link>
+                      <Link to={{pathname: `/card/edit/${cid}`}} style={linkStyle}> Karte Bearbeiten</Link>
                       <Link to="/card/new" style={linkStyle}> Neue Karte</Link>
                     </>
                   )}
