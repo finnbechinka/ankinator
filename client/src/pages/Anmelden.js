@@ -15,7 +15,7 @@ function Anmelden() {
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().min(3).max(100).required(),
+    email: Yup.string().email().required(),
     password: Yup.string().min(4).max(20).required(),
   });
 
