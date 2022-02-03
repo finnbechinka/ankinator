@@ -19,7 +19,9 @@ function Dashboard() {
         if(authState.status){
             axios.get(`http://localhost:3001/card/${authState.id}/next`).then((res) => {
                 if (res.data == "Alle Karten abgearbeitet!") {
-                    navigate("/dashboard/nocard")
+                    navigate("/dashboard/nocard");
+                }else if(res.data.error){
+                    navigate("/dashboard/nocard");
                 } else {
                     setCard(res.data);
                     setCid(res.data.id);

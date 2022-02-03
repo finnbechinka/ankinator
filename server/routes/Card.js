@@ -43,9 +43,10 @@ router.get('/:cid', async (req, res) => {
 router.get('/:uid/next', async (req, res) => {
     const uid = req.params.uid;
     const card = await Card.findOne({ where: { UserId: uid }, order: [['next_interval', 'ASC']] });
-    var date = new Date();
-    var cardDate = new Date(card.dataValues.next_interval);
+
     if(card){
+        var date = new Date();
+        var cardDate = new Date(card.dataValues.next_interval);
         if(cardDate <= date){
             res.json(card);
         }else{
